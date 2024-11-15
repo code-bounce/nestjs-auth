@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id String @id @default(uuid())
+  email String @db.VarChar(100) @unique
+  password String
+
+  tokenVersion Int @default(0) @map("token_version")
+  
+  createdAt DateTime @map("created_at") @default(now())
+  updatedAt DateTime @map("updated_at") @updatedAt
+  createdBy String @map("created_by")
+  updatedBy String? @map("updated_by")
+  version Int @default(1)
+  deleted Boolean @default(false)
+
+  userSessions UserSession[] 
+
+  @@map("user")
+}
+
+model UserSession {
+  id String @id @default(uuid())
+
+  createdAt DateTime @map("created_at") @default(now())
+  updatedAt DateTime @map("updated_at") @updatedAt
+  createdBy String @map("created_by")
+  updatedBy String? @map("updated_by")
+  version Int @default(1)
+  deleted Boolean @default(false)
+
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BlackListedToken {
+  id String @id @default(uuid())
+  token String
+
+  createdAt DateTime @map("created_at") @default(now())
+  updatedAt DateTime @map("updated_at") @updatedAt
+  createdBy String @map("created_by")
+  updatedBy String? @map("updated_by")
+  version Int @default(1)
+  deleted Boolean @default(false)
+
+  @@map("black_listed_token")
+}
