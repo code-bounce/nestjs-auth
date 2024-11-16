@@ -4,10 +4,10 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 export interface JwtPayload {
-  sub: string; // Subject (usually the user ID)
-  username: string; // Username or email
-  iat: number; // Issued at timestamp
-  exp: number; // Expiration timestamp
+  sub: string;
+  username: string;
+  iat: number;
+  exp: number;
 }
 
 @Injectable()

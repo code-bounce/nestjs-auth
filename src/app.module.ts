@@ -5,6 +5,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { PrismaModule } from './config/prisma/prisma.module';
+import { UtilsModule } from './shared/utils/utils.module';
 
 @Module({
   imports: [
@@ -26,8 +28,10 @@ import * as Joi from 'joi';
         aboutEarly: true,
       },
     }),
+    PrismaModule,
     AuthModule,
     UsersModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

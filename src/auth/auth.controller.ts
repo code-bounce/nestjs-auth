@@ -21,13 +21,14 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Request() req) {
-    return this.authService.login(req.user);
+  login(@Request() request) {
+    return this.authService.login(request.user);
   }
 
   @UseGuards(JwtRefreshAuthGuard)
   @Get('/refresh')
   refresh(@Request() request) {
+    console.log('Token', request.user);
     return request.user;
   }
 }
